@@ -5,15 +5,15 @@ class authenticationService {
     this.tokenManager = tokenManager;
   }
 
-  async createAuthentication({ username, password }) {
-    const userId = await this.userService.verifyUserCredential(username, password);
+  async createAuthentication({ email, password }) {
+    const { userId, email: verifiedEmail } = await this.userService.verifyUserCredential(email, password);
 
-    const accessToken = this.tokenManager.generateAccessToken({ userId });
-    const refreshToken = this.tokenManager.generateRefreshToken({ userId });
+    const accessToken = this.tokenManager.generateAccessToken({ 
+      userId, 
+      email: verifiedEmail 
+    });
 
-    await this.authenticationRepository.createRefreshToken(refreshToken);
-
-    return { accessToken, refreshToken };
+    return { accessToken };
   }
 
   async refreshAuthentication(refreshToken) {

@@ -12,7 +12,7 @@ const authenticate = (req, res, next) => {
     const token = authHeader.substring(7);
     const decoded = tokenManager.decodeAccessToken(token);
 
-    req.user = { userId: decoded.userId };
+    req.auth = decoded;
     next();
   } catch (err) {
     next(err);

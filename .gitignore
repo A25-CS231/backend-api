@@ -1,3 +1,27 @@
-node_modules
+# Dependencies
+node_modules/
+npm-debug.log
+package-lock.json
 
+# Environment
 .env
+.env.local
+.env.dev
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files (optional - hapus jika mau push)
+test-login.js
+generate-hash.js
+
+# Docker volumes (data tidak ikut)
+*.sql.backup
