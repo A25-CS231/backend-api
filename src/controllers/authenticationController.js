@@ -5,12 +5,12 @@ class authenticationController {
 
   async postAuthentication(req, res, next) {
     try {
-      const { accessToken, refreshToken } =
+      const { accessToken } =
         await this.authenticationService.createAuthentication(req.body);
 
-      res.status(201).json({
+      res.status(200).json({
         status: 'success',
-        data: { accessToken, refreshToken },
+        accessToken,
       });
     } catch (err) {
       next(err);

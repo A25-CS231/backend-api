@@ -4,7 +4,7 @@ const AuthenticationValidator = require('../validators/authenticationValidator')
 const createAuthenticationRoutes = (authenticationController) => {
   const router = express.Router();
 
-  router.post('/authentications', (req, res, next) => {
+  router.post('/auths', (req, res, next) => {
     try {
       AuthenticationValidator.validatePostPayload(req.body);
       authenticationController.postAuthentication(req, res, next);

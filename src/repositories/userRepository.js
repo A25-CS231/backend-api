@@ -8,16 +8,6 @@ class UserRepository {
     this.pool = pool;
   }
 
-  async verifyNewUsername(username) {
-    const result = await this.pool.query('SELECT username FROM users WHERE username = $1',
-      [username]
-    );
-
-    if (result.rowCount) {
-      throw new ValidationError('Username sudah digunakan.');
-    }
-  }
-
 //   async createUser(id, username, password, fullname) {
 //     await this.verifyNewUsername(username);
 
@@ -30,23 +20,23 @@ class UserRepository {
 //     return id;
 //   }
 
-  async verifyUserCredential(username, password) {
-    const result = await this.pool.query('SELECT id, password FROM users WHERE username = $1',
-      [username]
+  async verifyUserCredential(email, password) {
+    const result = await this.pool.query('SELECT id, email, password FROM users WHERE email = $1',
+      [email]
     );
 
     if (!result.rowCount) {
       throw new AuthenticationError('Kredensial yang anda berikan salah.');
     }
 
-    const { id, password: hashedPassword } = result.rows[0];
+    const { id, email: verifiedEmail, password: hashedPassword } = result.rows[0];
     const match = await bcrypt.compare(password, hashedPassword);
 
     if (!match) {
       throw new AuthenticationError('Kredensial yang anda berikan salah.');
     }
 
-    return id;
+    return { userId: id, email: verifiedEmail };
   }
 
   async getUserById(id) {

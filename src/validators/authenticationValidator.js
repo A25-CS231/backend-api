@@ -2,7 +2,7 @@ const Joi = require('joi');
 const ValidationError = require('../errors/ValidationError');
 
 const PostAuthenticationSchema = Joi.object({
-  username: Joi.string().required(),
+  email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
 

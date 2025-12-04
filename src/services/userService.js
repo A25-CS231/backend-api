@@ -14,8 +14,8 @@ class UserService {
     return this.userRepository.getUserById(id);
   }
 
-  async verifyUserCredential(username, password) {
-    return this.userRepository.verifyUserCredential(username, password);
+  async verifyUserCredential(email, password) {
+    return this.userRepository.verifyUserCredential(email, password);
   }
 }
 
