@@ -14,7 +14,7 @@ exports.up = (pgm) => {
     display_name: { type: "varchar(255)", notNull: false },
     name: { type: "varchar(255)", notNull: false },
     email: { type: "varchar(255)", notNull: false, unique: true },
-    password: { type: "varchar(255)", notNull: false },
+    password: { type: "varchar(255)", notNull: true },
     phone: { type: "varchar(50)", notNull: false },
     user_role: { type: "integer", notNull: false }, // Integer (2 di contoh)
     user_verification_status: { type: "integer", notNull: false }, // Integer (1 di contoh)
