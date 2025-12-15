@@ -1,4 +1,3 @@
-Berikut adalah draft `README.md` yang lengkap dan terstruktur sesuai standar industri untuk proyek **AI Learning Insight Backend** (Learning AI API). Dokumen ini mencakup deskripsi proyek, instalasi, konfigurasi, dokumentasi API, dan struktur kode berdasarkan file yang Anda unggah.
 
 -----
 
