@@ -1,0 +1,523 @@
+{
+	"info": {
+		"_postman_id": "4fb29d86-95e7-4d5f-8de5-88d2990f6fd3",
+		"name": "Backend API Test",
+		"description": "Collection untuk testing Backend API - Learning AI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32093236",
+		"_collection_link": "https://capstone-sipedis.postman.co/workspace/Team-Workspace~02a76ecd-723c-4f14-8568-aa5e40a11786/collection/32093236-4fb29d86-95e7-4d5f-8de5-88d2990f6fd3?action=share&source=collection_link&creator=32093236"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login - Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 200 value', () => {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response Content-Type header should have application/json value', () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+									"});",
+									"",
+									"pm.test('response body should have correct property and value', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"    pm.expect(responseJson).to.haveOwnProperty('accessToken');",
+									"    pm.expect(responseJson.accessToken).to.be.a('string');",
+									"",
+									"    // Save token to environment",
+									"    pm.environment.set('accessToken', responseJson.accessToken);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auths",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auths"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Failed (Wrong Email)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 401 value', () => {",
+									"   pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test('response body should have correct error message', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('fail');",
+									"    pm.expect(responseJson).to.haveOwnProperty('message');",
+									"    pm.expect(responseJson.message).to.be.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"wrong@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auths",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auths"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - Failed (Wrong Password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 401 value', () => {",
+									"   pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test('response body should have correct error message', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson.status).to.equals('fail');",
+									"    pm.expect(responseJson.message).to.be.a('string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"wrongpassword\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auths",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auths"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "Get Activities - Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 200 value', () => {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response Content-Type header should have application/json value', () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+									"});",
+									"",
+									"pm.test('response body should have correct property', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"    pm.expect(responseJson).to.haveOwnProperty('data');",
+									"    pm.expect(responseJson.data).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/activities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Activities - Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 401 value', () => {",
+									"   pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/activities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Journeys",
+			"item": [
+				{
+					"name": "Get Journeys - Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 200 value', () => {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body should have correct property', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"    pm.expect(responseJson).to.haveOwnProperty('data');",
+									"    pm.expect(responseJson.data).to.be.an('array');",
+									"",
+									"    // If data exists, check structure",
+									"    if (responseJson.data.length > 0) {",
+									"        const journey = responseJson.data[0];",
+									"        pm.expect(journey).to.haveOwnProperty('journey_id');",
+									"        pm.expect(journey).to.haveOwnProperty('name');",
+									"        pm.expect(journey).to.haveOwnProperty('is_finished');",
+									"        pm.expect(journey.is_finished).to.be.a('boolean');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/journeys",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"journeys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Journeys - Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 401 value', () => {",
+									"   pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/journeys",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"journeys"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Learner Features",
+			"item": [
+				{
+					"name": "Get Learner Features - Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 200 value', () => {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body should have correct property', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"    pm.expect(responseJson).to.haveOwnProperty('data');",
+									"    pm.expect(responseJson.data).to.be.an('object');",
+									"",
+									"    // Check required fields",
+									"    const data = responseJson.data;",
+									"    pm.expect(data).to.haveOwnProperty('last_updated_at');",
+									"    pm.expect(data).to.haveOwnProperty('total_journey_started');",
+									"    pm.expect(data).to.haveOwnProperty('total_journey_completed');",
+									"    pm.expect(data).to.haveOwnProperty('predicted_learner_type');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/learner/features",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"learner",
+								"features"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Learner Features - Unauthorized",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 401 value', () => {",
+									"   pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/learner/features",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"learner",
+								"features"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request Copy",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request Copy 2",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request Copy 3",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request Copy 4",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request Copy 5",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}
